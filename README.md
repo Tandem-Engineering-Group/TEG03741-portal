@@ -6,4 +6,4 @@ pins coloured by visit date) - run `./rebuild.sh` with the access phrase to re-e
 map into `index.html`, then commit and push.
 The hosted file is unreadable without the access phrase - safe on public hosting.
 To close the portal: delete this repo / hosting target.
-Access phrase held by R. Letts (not stored in this repo).
+Access phrase held by R. Letts (not stored in this repo; rotated 2026-07-31).
