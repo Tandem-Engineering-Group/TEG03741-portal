@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>From Gap Theory to Game Theory — The Tensile Fabric of Society</title>
+<meta name="description" content="A layered model of social cohesion: prediction-error gaps as fiber, repeated games as knots, network topology as weave, percolation as tensile strength. White paper + interactive fragility map.">
+<meta property="og:title" content="The Tensile Fabric of Society">
+<meta property="og:description" content="From dopamine prediction errors to percolation: a four-layer model of why societies hold — and how they tear.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230B1526'/%3E%3Cpath d='M2 5h12M2 8h12M2 11h12M5 2v12M8 2v12M11 2v12' stroke='%233D6285' stroke-width='1'/%3E%3Ccircle cx='8' cy='8' r='2' fill='%23E1602F'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --void:#0B1526; --panel:#101E33; --line:#1D3049;
+    --ink:#C8D4E4; --dim:#7A8CA4; --faint:#5A6B82;
+    --steel:#3D6285; --steel-hi:#6FA3C8; --gold:#C9971F; --rust:#E1602F;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0; background:var(--void); color:var(--ink);
+    font:16.5px/1.68 "Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+  a{color:var(--steel-hi); text-decoration:none}
+  a:hover{text-decoration:underline}
+  a:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative; min-height:66vh; display:flex; align-items:flex-end;
+    border-bottom:1px solid var(--line); overflow:hidden}
+  #heroCv{position:absolute; inset:0; width:100%; height:100%; touch-action:none}
+  .hero .inner{position:relative; width:100%; max-width:880px; margin:0 auto;
+    padding:64px 22px 40px;
+    background:linear-gradient(180deg, rgba(11,21,38,0) 0%, rgba(11,21,38,.82) 55%, rgba(11,21,38,.95) 100%)}
+  .kicker{font:550 13px/1.4 system-ui,sans-serif; color:var(--gold); margin:0 0 10px}
+  h1.site{font:700 clamp(30px,6vw,52px)/1.12 "Iowan Old Style",Palatino,Georgia,serif;
+    margin:0 0 12px; letter-spacing:-.01em}
+  h1.site em{font-style:italic; color:var(--steel-hi)}
+  .dek{font-size:clamp(16px,2.4vw,19px); color:var(--dim); max-width:60ch; margin:0 0 20px}
+  .meta{font:450 13px/1.5 system-ui,sans-serif; color:var(--faint); margin:0 0 22px}
+  .cta{display:flex; gap:10px; flex-wrap:wrap}
+  .btn{font:600 14px system-ui,sans-serif; padding:11px 16px; border-radius:6px;
+    border:1px solid var(--line); color:var(--ink); background:rgba(16,30,51,.85)}
+  .btn.primary{background:var(--rust); border-color:var(--rust); color:#fff}
+  .btn:hover{text-decoration:none; filter:brightness(1.1)}
+  .pressme{font:450 12px system-ui,sans-serif; color:var(--faint); margin-top:14px}
+
+  /* ---------- layout ---------- */
+  .wrap{max-width:720px; margin:0 auto; padding:0 22px}
+  article{padding:40px 0 20px}
+  p{margin:0 0 16px; max-width:66ch}
+  h2{font:650 24px/1.25 system-ui,sans-serif; color:#E4ECF7;
+    margin:44px 0 14px; letter-spacing:-.01em}
+  h3{font:600 16.5px/1.3 system-ui,sans-serif; color:var(--steel-hi); margin:26px 0 10px}
+  .abstract{border:1px solid var(--line); background:var(--panel); border-radius:8px;
+    padding:20px 22px; margin:34px 0 8px}
+  .abstract h2{margin:0 0 10px; font-size:15px; color:var(--gold)}
+  .abstract p{font-size:15px; color:#B9C6D8; margin:0}
+  .contents{font:450 14px/1.9 system-ui,sans-serif; color:var(--dim);
+    margin:18px 0 6px; max-width:66ch}
+  .cite{font:600 12px system-ui,sans-serif; vertical-align:2px}
+  em{color:#DCE6F2}
+
+  /* equations */
+  .eq{display:flex; align-items:center; gap:14px; margin:20px 0 22px; max-width:66ch}
+  .eq .m{flex:1; text-align:center}
+  .eq img{max-width:100%; height:auto; vertical-align:middle}
+  .eq .no{font:600 13px ui-monospace,Menlo,monospace; color:var(--faint); flex:none}
+
+  /* figures as plates */
+  figure{margin:26px 0 30px}
+  .plate{background:#F7F9FC; border-radius:8px; padding:10px;
+    box-shadow:0 0 0 1px var(--line)}
+  .plate img{display:block; width:100%; height:auto; border-radius:3px}
+  figcaption{font:450 13px/1.55 system-ui,sans-serif; color:var(--dim);
+    margin-top:10px; max-width:66ch}
+  figcaption b{color:var(--ink); font-weight:650}
+
+  /* tables */
+  .tscroll{overflow-x:auto; margin:22px 0 8px; border:1px solid var(--line);
+    border-radius:8px}
+  table{border-collapse:collapse; width:100%; min-width:560px;
+    font:450 13.5px/1.5 system-ui,sans-serif}
+  th{background:var(--panel); color:#E4ECF7; text-align:left; font-weight:650;
+    padding:9px 12px; border-bottom:1px solid var(--line)}
+  td{padding:8px 12px; border-bottom:1px solid #14243C; vertical-align:top;
+    color:#BCC9DB}
+  tr:last-child td{border-bottom:none}
+  td:first-child{color:var(--ink); white-space:nowrap;
+    font-family:ui-monospace,Menlo,monospace; font-size:12.5px}
+  .tcap{font:450 13px/1.55 system-ui,sans-serif; color:var(--dim); margin:8px 0 26px}
+  #t2 td:first-child{font-family:system-ui,sans-serif; font-size:13.5px;
+    white-space:normal; font-weight:600}
+
+  /* map callout */
+  .callout{display:block; border:1px solid var(--steel); border-radius:10px;
+    background:linear-gradient(180deg,#0F2038,#0C1830); padding:20px 22px;
+    margin:36px 0; color:var(--ink)}
+  .callout:hover{text-decoration:none; border-color:var(--steel-hi)}
+  .callout b{font:650 17px system-ui,sans-serif; display:block; margin-bottom:6px}
+  .callout span{font:450 14px/1.5 system-ui,sans-serif; color:var(--dim)}
+
+  /* references */
+  ol.refs{font:450 13.5px/1.6 system-ui,sans-serif; color:#B4C1D4;
+    padding-left:26px; max-width:70ch}
+  ol.refs li{margin-bottom:9px}
+  ol.refs em{font-style:italic; color:#CBD7E8}
+
+  footer{border-top:1px solid var(--line); margin-top:50px;
+    padding:22px 0 40px; font:450 13px/1.6 system-ui,sans-serif; color:var(--faint)}
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <canvas id="heroCv" aria-hidden="true"></canvas>
+  <div class="inner">
+    <p class="kicker">Working paper · v1.0 · August 2026</p>
+    <h1 class="site">From Gap Theory to Game Theory:<br>
+      <em>the tensile fabric of society</em></h1>
+    <p class="dek">Prediction-error gaps as social fiber, repeated games as knots,
+      network topology as weave — and percolation as the load rating that says
+      when the cloth tears.</p>
+    <p class="meta">Richard Letts, P.Eng. — concept &amp; direction ·
+      research synthesis &amp; drafting: Claude (Anthropic)</p>
+    <div class="cta">
+      <a class="btn primary" href="map.html">Open the fragility map</a>
+      <a class="btn" href="assets/Tensile_Fabric_of_Society_White_Paper.pdf" download>Download the PDF</a>
+      <a class="btn" href="#s1">Read the paper</a>
+    </div>
+    <p class="pressme" id="pressme">The mesh above is live — press it.</p>
+  </div>
+</div>
+
+<div class="wrap"><article>
+
+<div class="abstract">
+  <h2>Abstract</h2>
+  <p>A folk observation — feed a person bread every day and they resent you; feed
+  them occasionally and they adore you — sits on top of one of the most precisely
+  quantified results in behavioral neuroscience. This working paper develops that
+  observation into a four-layer formal model of social cohesion, called here the
+  <em>tensile-fabric model</em>. Layer I (the thread) identifies the elementary
+  unit of bonding with the reward-prediction-error signal δ carried by midbrain
+  dopamine neurons: attention and attachment are paid to <em>gaps</em> between
+  expectation and delivery, and gap salience is maximized at intermediate reward
+  probability. Layer II (the knot) uses repeated-game theory to state when a
+  dyadic tie holds: cooperation is sustainable exactly when the discounted shadow
+  of the future outweighs one-shot temptation. Layer III (the weave) imports
+  Granovetter's tie-strength topology, in which weak ties are the cross-threads
+  that turn strong-tie yarns into cloth. Layer IV (tensile strength) quantifies
+  when the cloth tears, using bond percolation, threshold-cascade dynamics, and
+  structural cohesion. A composite quantity Σ<sub>soc</sub>, the weighted minimum
+  cut over per-tie bond energies, is proposed as a candidate measure of the
+  tensile strength of a society. A materials-science stress–strain mapping and
+  the model's limits close the paper. All mathematical layers are established
+  results with citations; only the composite in Section 8 is original synthesis.</p>
+</div>
+
+<nav class="contents" aria-label="contents">
+  <a href="#s1">1 Introduction</a> · <a href="#s2">2 Notation</a> ·
+  <a href="#s3">3 The thread</a> · <a href="#s4">4 The knot</a> ·
+  <a href="#s5">5 The weave</a> · <a href="#s6">6 Tensile strength</a> ·
+  <a href="#s7">7 Stress–strain</a> · <a href="#s8">8 Composite Σ</a> ·
+  <a href="#s9">9 Limitations</a> · <a href="#s10">10 Conclusion</a> ·
+  <a href="#refs">References</a>
+</nav>
+
+<h2 id="s1">1. Introduction and motivating observation</h2>
+<p>Deliver an identical loaf of bread to the same person every day and, within
+weeks, the loaf is invisible; skip one day and you are an enemy. Deliver a loaf
+at unpredictable intervals and each loaf lands as a gift; you are a benefactor.
+The asymmetry is ancient enough to be proverbial, but it is not folklore: it is
+the single-tie limit of a measurable learning law. Partial reinforcement was
+shown to produce behavior more resistant to extinction than continuous
+reinforcement as early as 1939 <a class="cite" href="#ref1">[1]</a>, the full
+taxonomy of reinforcement schedules was mapped by Ferster and Skinner in 1957
+<a class="cite" href="#ref2">[2]</a>, and the interpersonal version — esteem
+that arrives incrementally is valued above esteem that was always there — was
+demonstrated experimentally by Aronson and Linder in 1965
+<a class="cite" href="#ref3">[3]</a>.</p>
+<p>The claim developed here is an engineering one. If the gap between
+expectation and delivery is treated as the elementary <em>fiber</em> of social
+bonding, then a stack of well-established formalisms assembles those fibers
+into a load-bearing structure: repeated games knot fibers into ties, network
+topology weaves ties into fabric, and percolation theory specifies the load at
+which the fabric tears. Each layer has its own mature literature; the
+contribution of this paper is the explicit lamination of the four layers into a
+single stack, a stress–strain reading of the result, and a proposed composite
+quantity for the tensile strength of a society. The layers are presented
+bottom-up, in the order a fabric is made: fiber, knot, weave, tested
+strength.</p>
+
+<h2 id="s2">2. Notation</h2>
+<p>Table 1 collects the variables used throughout. Layer I variables live at
+the timescale of single encounters within one nervous system; Layer II at the
+timescale of a relationship; Layers III–IV at the scale of the population
+graph.</p>
+<div class="tscroll"><table>
+<tr><th>Symbol</th><th>Meaning</th><th>Layer</th></tr>
+<tr><td>V(t)</td><td>learned expectation (predicted value) before the event at time t</td><td>I</td></tr>
+<tr><td>R(t), r(t)</td><td>reward actually delivered at time t</td><td>I</td></tr>
+<tr><td>δ(t)</td><td>reward-prediction error; the gap (Eqs. 1–2)</td><td>I</td></tr>
+<tr><td>α, β</td><td>learning-rate parameters (stimulus and reward salience)</td><td>I</td></tr>
+<tr><td>λ</td><td>asymptotic associative strength (magnitude of the reward)</td><td>I</td></tr>
+<tr><td>γ</td><td>within-agent temporal discount factor (TD learning)</td><td>I</td></tr>
+<tr><td>p</td><td>probability of reinforcement per opportunity</td><td>I</td></tr>
+<tr><td>N</td><td>opportunities until reinforcement; N ~ Geometric(p)</td><td>I</td></tr>
+<tr><td>U(p)</td><td>Bernoulli variance p(1−p): outcome uncertainty / salience</td><td>I</td></tr>
+<tr><td>T, R, P, Sk</td><td>Prisoner's-Dilemma payoffs: Temptation &gt; Reward &gt; Punishment &gt; Sucker</td><td>II</td></tr>
+<tr><td>δ_f</td><td>between-encounter discount factor: the shadow of the future</td><td>II</td></tr>
+<tr><td>δ_f*</td><td>critical discount factor (T−R)/(T−P) (Eq. 5)</td><td>II</td></tr>
+<tr><td>w_ij</td><td>tie strength / bond energy of edge (i, j) (Eq. 10)</td><td>III</td></tr>
+<tr><td>⟨k⟩, ⟨k²⟩</td><td>first and second moments of the degree distribution</td><td>III–IV</td></tr>
+<tr><td>f, q</td><td>fraction of ties removed / intact (q = 1−f)</td><td>IV</td></tr>
+<tr><td>S</td><td>fraction of the population in the giant connected component</td><td>IV</td></tr>
+<tr><td>f_c</td><td>critical removal fraction: the fracture point (Eq. 7)</td><td>IV</td></tr>
+<tr><td>r(t)</td><td>fraction of the population participating in a cascade at step t</td><td>IV</td></tr>
+<tr><td>F(·)</td><td>cumulative distribution of individual activation thresholds</td><td>IV</td></tr>
+<tr><td>κ(G)</td><td>structural cohesion: minimum vertex cut of graph G (Eq. 9)</td><td>IV</td></tr>
+<tr><td>Σ_soc</td><td>proposed social tensile strength (Eq. 11)</td><td>synthesis</td></tr>
+</table></div>
+<p class="tcap"><b>Table 1.</b> Nomenclature. (The sucker payoff is written Sk
+to avoid collision with the giant-component fraction S.)</p>
+
+<h2 id="s3">3. Layer I — the thread: prediction-error gaps</h2>
+<h3>3.1 The learning rule</h3>
+<p>The Rescorla–Wagner rule <a class="cite" href="#ref4">[4]</a> states that
+learning is driven not by reward but by <em>surprise</em>: the change in
+expectation on any trial is proportional to the gap between what the reward
+supports (λ) and what was already expected (V):</p>
+<div class="eq"><span class="m"><img src="assets/eq/eq1.png" style="width:min(100%,155px)" alt="ΔV_t = αβ(λ − V_t)"></span><span class="no">(1)</span></div>
+<p>Temporal-difference (TD) learning generalizes the same gap to sequential
+settings <a class="cite" href="#ref5">[5]</a>, defining the moment-to-moment
+prediction error</p>
+<div class="eq"><span class="m"><img src="assets/eq/eq2.png" style="width:min(100%,240px)" alt="δ_t = r_t + γV(s_{t+1}) − V(s_t)"></span><span class="no">(2)</span></div>
+<p>Both equations formalize the intuition sketched on the whiteboard as the
+<em>gap between desire and comfort</em>: λ (or r) is the desired state, V is
+the comfortable, already-priced-in state, and δ is the tension in the thread.
+Figure 1 simulates Eq. 1 for the two feeders. The daily feeder's recipient
+converges to V ≈ λ, at which point δ → 0: the bread is neurologically silent.
+One omission then produces δ = 0 − V ≈ −λ, a full-magnitude negative spike —
+the "hate." The intermittent feeder's recipient never converges; every delivery
+arrives against a low V and lands as a large positive δ — the "love." The
+asymmetry of the proverb is exactly the asymmetry of where each schedule parks
+V.</p>
+<figure><div class="plate"><img src="assets/fig1_rw.png"
+  alt="Rescorla–Wagner simulation of daily vs intermittent feeding"></div>
+<figcaption><b>Figure 1.</b> Rescorla–Wagner simulation (αβ = 0.18, λ = 1) of
+a daily feeder (p = 1, feeding stops at day 49) versus an intermittent feeder
+(p = 1/7). Top: learned expectation V. Bottom: prediction error δ per day.
+Continuous reinforcement drives δ to zero and converts one omission into a
+maximal negative error; intermittent reinforcement preserves large positive
+errors indefinitely.</figcaption></figure>
+
+<h3>3.2 The physiological substrate</h3>
+<p>The gap is not merely a modeling convenience; it is carried by an identified
+cell population. Schultz, Dayan and Montague showed that phasic firing of
+midbrain dopamine neurons matches the TD error δ of Eq. 2: unpredicted rewards
+excite the neurons, fully predicted rewards produce no response, and omission
+of a predicted reward depresses firing below baseline
+<a class="cite" href="#ref6">[6]</a>. Fiorillo, Tobler and Schultz then
+parameterized reward probability directly and found two distinct signals
+<a class="cite" href="#ref7">[7]</a>: a phasic response at delivery that scales
+with the improbability of the reward (∝ 1−p), and a sustained anticipatory ramp
+that tracks <em>uncertainty</em>, maximal at p = 0.5 and vanishing at p = 0 and
+p = 1. Uncertainty here is simply the variance of a Bernoulli outcome:</p>
+<div class="eq"><span class="m"><img src="assets/eq/eq4.png" style="width:min(100%,485px)" alt="U(p) = p(1−p), maximal at 0.5"></span><span class="no">(4)</span></div>
+<p>Figure 2 plots both signals. The daily feeder operates at p = 1, where
+<em>both</em> signals are zero; the weekly feeder operates at p ≈ 0.14 on the
+rising limb of the uncertainty parabola; commercial gambling and algorithmic
+feeds engineer p toward the 0.5 peak. One caution is owed to the layer's
+limits: controlled rodent work has not supported the strong claim that
+variable-ratio scheduling <em>alone</em> induces pathological gambling,
+implicating brain chemistry and context alongside the schedule
+<a class="cite" href="#ref8">[8]</a>. The schedule sets salience; it does not
+by itself set pathology.</p>
+<figure><div class="plate"><img src="assets/fig2_uncertainty.png"
+  alt="Phasic and sustained dopamine responses vs reward probability"></div>
+<figcaption><b>Figure 2.</b> The two dopaminergic signals as functions of
+reinforcement probability p, after Fiorillo et al. [7]: phasic prediction-error
+response at delivery (∝ 1−p) and sustained anticipatory activity
+(∝ 4p(1−p), normalized). Daily bread (p = 1) silences both channels;
+intermittent delivery keeps both alive.</figcaption></figure>
+
+<h3>3.3 Memorylessness and the impossibility of quitting</h3>
+<p>Under a variable-ratio schedule with per-opportunity probability p, the
+number of opportunities until the next reinforcement is geometric:</p>
+<div class="eq"><span class="m"><img src="assets/eq/eq3.png" style="width:min(100%,530px)" alt="Geometric distribution and memorylessness"></span><span class="no">(3)</span></div>
+<p>The geometric distribution is the unique memoryless discrete distribution:
+the conditional probability of reward on the next attempt is p regardless of
+how many attempts have failed. There is therefore never a statistically
+rational moment at which continued responding becomes less promising than it
+was at the start — the formal root of the extinction resistance measured in
+[1, 2]. A fixed daily schedule is the opposite limit: a delta function at
+24-hour intervals whose single missed pulse falsifies the entire learned model
+at once. Layer I's output, carried upward, is a per-tie <em>salience factor</em>
+g(p) = 4p(1−p): the degree to which a relationship's exchanges remain
+neurologically alive rather than priced in.</p>
+
+<h2 id="s4">4. Layer II — the knot: repeated games and the shadow of the future</h2>
+<p>A live thread is not yet a bond; it must be knotted by reciprocity. Model a
+tie as an indefinitely repeated Prisoner's Dilemma with stage payoffs
+T &gt; R &gt; P &gt; Sk (temptation, mutual reward, mutual punishment, sucker)
+and a probability-weighted discount factor δ_f per encounter — the value each
+party places on the <em>next</em> round, i.e. the expected continuation of the
+relationship. Under the grim-trigger strategy (cooperate until betrayed, then
+punish forever), cooperation is an equilibrium exactly when the discounted
+stream of mutual reward beats a one-shot betrayal followed by permanent
+punishment <a class="cite" href="#ref9">[9]</a>:</p>
+<div class="eq"><span class="m"><img src="assets/eq/eq5.png" style="width:min(100%,308px)" alt="Grim trigger condition and critical discount factor"></span><span class="no">(5)</span></div>
+<p>The folk theorems generalize the point: with sufficiently patient players
+(δ_f → 1), essentially any individually rational cooperative outcome is
+sustainable in equilibrium <a class="cite" href="#ref10">[10]</a>. Axelrod's
+tournaments gave the condition its name — cooperation survives when the shadow
+of the future is long <a class="cite" href="#ref11">[11]</a>. Figure 3 draws
+the boundary of Eq. 5. The knot and the thread are complementary, not
+redundant: Layer I sets how much each encounter is <em>felt</em> (salience),
+Layer II sets whether the encounter stream is <em>expected to continue</em>
+(tension). A tie can fail either way — by becoming so predictable it is no
+longer felt (thread goes slack, δ → 0) or by losing its future (knot slips,
+δ_f &lt; δ_f*). "The other must play" — as the whiteboard puts it — is
+precisely the δ_f term: anticipation of the counterparty's next move is what
+keeps the knot loaded.</p>
+<figure><div class="plate"><img src="assets/fig3_folk.png"
+  alt="Cooperation region of the repeated Prisoner's Dilemma"></div>
+<figcaption><b>Figure 3.</b> Cooperation region of the repeated Prisoner's
+Dilemma under grim trigger (Eq. 5), with R = 3, P = 1. Above the curve the
+discounted future outweighs one-shot temptation and the knot holds; below it,
+defection is dominant. Higher temptation payoffs demand a longer shadow of the
+future.</figcaption></figure>
+
+<h2 id="s5">5. Layer III — the weave: topology of strong and weak ties</h2>
+<p>Knotted threads become fabric only through a weave, and the weave has a
+known architecture. Granovetter defined the strength of a tie as a combination
+of time, emotional intensity, intimacy and reciprocal services
+<a class="cite" href="#ref12">[12]</a>, and derived a structural consequence
+now standard in network science: strong ties close triangles (one's close
+friends know each other), so strong-tie subgraphs form dense, redundant
+<em>clumps</em>; the ties that bridge between clumps are disproportionately
+weak ties. Removing a strong tie rarely changes global connectivity — its
+endpoints remain linked through shared neighbors — while removing weak ties
+disconnects communities from one another. In textile terms: strong ties are
+the fibers twisted into local yarns; weak ties are the cross-threads that make
+the yarns into cloth rather than a heap of rope. A society optimized only for
+strong ties is a bundle of unconnected cords — high local cohesion, no
+macroscopic tensile strength. Layer III's output is the weighted graph
+G(V, E, w) on which Layer IV's failure analysis runs.</p>
+
+<h2 id="s6">6. Layer IV — tensile strength: percolation, cascades, and cohesion</h2>
+<h3>6.1 When does the fabric hold together at all?</h3>
+<p>The macroscopic analog of "holding together" is the existence of a giant
+connected component. For an Erdős–Rényi random graph with mean degree ⟨k⟩ in
+which a fraction q of ties survives, the giant-component fraction S solves the
+self-consistency condition <a class="cite" href="#ref13">[13]</a></p>
+<div class="eq"><span class="m"><img src="assets/eq/eq6.png" style="width:min(100%,137px)" alt="S = 1 − exp(−⟨k⟩qS)"></span><span class="no">(6)</span></div>
+<p>with S &gt; 0 only when ⟨k⟩q &gt; 1. For arbitrary degree distributions the
+Molloy–Reed criterion governs <a class="cite" href="#ref14">[14]</a>, and the
+critical fraction of removed ties at which the network fragments — the
+fracture strain of the fabric — follows <a class="cite" href="#ref15">[15]</a>:</p>
+<div class="eq"><span class="m"><img src="assets/eq/eq7.png" style="width:min(100%,295px)" alt="Molloy–Reed criterion and critical fraction"></span><span class="no">(7)</span></div>
+<p>Figure 4 plots Eq. 6 as ties are removed. Two engineering readings follow.
+First, the transition is continuous but sharp: a society can shed a large
+fraction of its ties with modest visible damage and then disintegrate over a
+narrow additional interval — brittle failure without much warning. Second, f_c
+rises with density and, per Eq. 7, with degree <em>heterogeneity</em>: hubs
+and redundant weak-tie bridges are reinforcement mesh. (The same heterogeneity
+makes the fabric acutely vulnerable to <em>targeted</em> removal of hubs [15]
+— a designed attack, unlike the random fatigue plotted here.)</p>
+<figure><div class="plate"><img src="assets/fig4_percolation.png"
+  alt="Giant component fraction vs fraction of ties removed"></div>
+<figcaption><b>Figure 4.</b> Bond percolation on a random social graph
+(Eq. 6): fraction S of society still connected as a fraction f of ties is
+removed, for mean degree 4 and 8. The fracture point f_c = 1 − 1/⟨k⟩ is a
+continuous phase transition; a denser weave fails later.</figcaption></figure>
+
+<h3>6.2 How the crack propagates</h3>
+<p>Percolation describes the static failure envelope; the <em>dynamics</em> of
+tearing are threshold cascades. In Granovetter's riot model each individual
+defects once the participating fraction exceeds a personal threshold; if F is
+the cumulative distribution of thresholds, participation evolves by iteration
+toward a fixed point <a class="cite" href="#ref16">[16]</a>:</p>
+<div class="eq"><span class="m"><img src="assets/eq/eq8.png" style="width:min(100%,222px)" alt="r_{t+1} = F(r_t)"></span><span class="no">(8)</span></div>
+<p>Figure 5 shows the celebrated instability: with a narrow threshold
+distribution the origin is a stable equilibrium and order holds, while a
+modest widening of the <em>same-mean</em> distribution creates a path from
+r = 0 to near-universal participation — each defection lowers the effective
+threshold of the next actor, the social equivalent of stress concentration at
+a crack tip. Watts generalized the mechanism to sparse networks and located a
+"cascade window" in which a vanishingly small seed can flip a macroscopic
+fraction of the graph <a class="cite" href="#ref17">[17]</a>. The engineering
+moral is uncomfortable but familiar from fracture mechanics: global collapse
+is governed less by the average member than by the tail of the threshold
+distribution and the connectivity of the first flaw.</p>
+<figure><div class="plate"><img src="assets/fig5_threshold.png"
+  alt="Threshold cascade fixed-point diagram"></div>
+<figcaption><b>Figure 5.</b> Granovetter threshold dynamics (Eq. 8) with
+normally distributed thresholds, mean μ = 0.40. Narrow dispersion (σ = 0.10):
+r = 0 is stable; the unstable interior fixed point is the yield point. Broad
+dispersion (σ = 0.30): F(r) exceeds the identity everywhere below the upper
+fixed point and a full cascade propagates from an arbitrarily small
+seed.</figcaption></figure>
+
+<h3>6.3 Structural cohesion as measured redundancy</h3>
+<p>Sociology already maintains a load-rating for the weave. Moody and White
+define the structural cohesion of a group as the minimum number of members
+whose removal disconnects it <a class="cite" href="#ref18">[18]</a> — by
+Menger's theorem, equal to the number of vertex-independent paths joining
+every pair:</p>
+<div class="eq"><span class="m"><img src="assets/eq/eq9.png" style="width:min(100%,378px)" alt="Structural cohesion definition"></span><span class="no">(9)</span></div>
+<p>This is redundancy engineering stated in graph theory: a structure rated
+κ = 1 has single points of failure; higher κ means load paths around any local
+break. Moody and White further show empirically that cohesion is
+<em>nested</em> — highly cohesive cores sit inside larger, less cohesive
+shells — which is exactly the laminate architecture a structural engineer
+would specify for damage tolerance.</p>
+
+<a class="callout" href="map.html"><b>Feel the failure modes →</b>
+<span>The interactive fragility map runs Eqs. 8–10 as a live membrane: press
+in gravity wells, tear ties, polarize the bridges, and watch S collapse past
+f_c. Anomie is a slider.</span></a>
+
+<h2 id="s7">7. The stress–strain curve of a society</h2>
+<p>The four layers compose into a materials analogy that is more than
+decorative, because each regime of a stress–strain curve maps onto a governing
+equation from a different layer. Table 2 states the mapping and Figure 6 draws
+the schematic. One regime deserves emphasis: Durkheim's <em>anomie</em>
+<a class="cite" href="#ref19">[19]</a> — the normlessness he identified when
+regulation and expectation dissolve — is not the fracture at the end of the
+curve but a loss of <em>modulus</em>: λ becomes undefined, V collapses, and
+threads go slack before any external load is applied. A society can therefore
+fail in two distinct modes: overload (stress exceeds tensile strength,
+Sections 6.1–6.2) and loss of pre-tension (nothing is expected of anyone, so
+no gap, no salience, no knot — the fabric unravels at zero load).</p>
+<figure><div class="plate"><img src="assets/fig6_stress_strain.png"
+  alt="Schematic stress–strain curve of a society"></div>
+<figcaption><b>Figure 6.</b> Schematic stress–strain curve of a society. Axes
+are ordinal, not fitted: strain is accumulated permanent deformation of norms;
+stress is applied shock. Regime boundaries correspond to the equations listed
+in Table 2.</figcaption></figure>
+<div class="tscroll"><table id="t2">
+<tr><th>Material regime</th><th>Mechanical meaning</th><th>Societal analog</th><th>Governing math</th></tr>
+<tr><td>Elastic region</td><td>Reversible strain; Hooke's law</td>
+  <td>Reciprocity absorbs shocks; expectations rebound</td>
+  <td>δ small; r* = 0 stable in Eq. 8</td></tr>
+<tr><td>Yield point</td><td>Onset of permanent deformation</td>
+  <td>Legitimacy crisis; first defection cascades</td>
+  <td>δ_f drops below δ_f* (Eq. 5); unstable fixed point of Eq. 8</td></tr>
+<tr><td>Plastic region</td><td>Permanent rearrangement; strain hardening</td>
+  <td>Institutional reform; norms re-learned around new λ</td>
+  <td>V re-converges via Eq. 1 toward λ′</td></tr>
+<tr><td>Ultimate strength</td><td>Maximum stress the specimen bears</td>
+  <td>Peak mobilization / solidarity capacity</td>
+  <td>κ(G) and ⟨k²⟩/⟨k⟩ maximal (Eqs. 7, 9)</td></tr>
+<tr><td>Necking</td><td>Strain localizes at a thinning cross-section</td>
+  <td>Polarization; weak-tie bridges thin and load concentrates</td>
+  <td>bridge removal drives κ_MR → 2 (Eq. 7)</td></tr>
+<tr><td>Fracture</td><td>Separation of the specimen</td>
+  <td>Fragmentation, secession, collapse</td>
+  <td>f &gt; f_c; S → 0 (Eqs. 6–7)</td></tr>
+<tr><td>Loss of modulus</td><td>Material creeps; no restoring force</td>
+  <td>Anomie: expectations undefined, ties slack [19]</td>
+  <td>λ undefined ⇒ δ ≡ 0; g(p) → 0</td></tr>
+</table></div>
+<p class="tcap"><b>Table 2.</b> Stress–strain mapping between material failure
+regimes and societal regimes, with the governing equation of each.</p>
+
+<h2 id="s8">8. A proposed composite quantity (original synthesis)</h2>
+<p>Everything above Section 8 is established literature. This section is the
+paper's speculative step and should be read as a proposal, not a result.
+Define the bond energy of tie (i, j) as the product of its Layer-II tension —
+the discounted cooperation surplus protecting the knot — and its Layer-I
+salience — how alive the exchange remains:</p>
+<div class="eq"><span class="m"><img src="assets/eq/eq10.png" style="width:min(100%,273px)" alt="Bond energy: shadow of future times salience"></span><span class="no">(10)</span></div>
+<p>and define the tensile strength of the society as the weighted minimum cut
+of the resulting graph — the least total bond energy that must be severed to
+separate the population into disconnected blocks:</p>
+<div class="eq"><span class="m"><img src="assets/eq/eq11.png" style="width:min(100%,185px)" alt="Σ_soc as weighted minimum cut"></span><span class="no">(11)</span></div>
+<p>where the minimum runs over every edge cut C that separates G into
+disconnected blocks. Three testable implications fall out. First, a fully
+"solved" society — every exchange contractually guaranteed, p → 1 everywhere —
+satisfies every Layer-II condition yet drives every w_ij to zero through the
+salience term: perfect predictability is a slack fabric, which is the bread
+paradox restated at civilizational scale. Second, Σ_soc inherits percolation's
+density dependence: interventions that raise ⟨k⟩ or bridge redundancy raise
+the fracture strain roughly linearly (Fig. 4). Third, because minimum cuts run
+through weak-tie bridges, polarization — the selective decay of exactly those
+bridges — collapses Σ_soc far faster than uniform social decay of the same
+total magnitude, consistent with the targeted-attack results of [15].</p>
+
+<h2 id="s9">9. Limitations and scope</h2>
+<p>Four boundaries are stated plainly. (i) <em>Level-mixing is a modeling
+choice, not a derivation.</em> Nothing in [6, 7] entails Eq. 10; carrying a
+neuron-level signal into a macrosocial weight is an analogy made quantitative,
+and it may fail empirically. (ii) <em>"Society," not "reality."</em> The
+whiteboard's stronger claim — that the gap-to-game fabric constitutes the
+tensile strength of <em>reality</em> — is poetry as far as this stack reaches;
+every equation here quantifies coordination among agents, not physics.
+(iii) <em>Parameters are illustrative.</em> No figure in this paper is fitted
+to data; p, δ_f, ⟨k⟩ and threshold distributions were chosen for legibility.
+(iv) <em>The mechanism is exploitable, and known to be.</em> Variable-reward
+scheduling is the documented design basis of gambling products and
+engagement-optimized feeds; the same mathematics that explains cohesion is a
+manual for manufacturing compulsion, and rodent evidence cautions that
+schedule alone does not determine pathology [8]. An engineer publishing load
+tables for a material accepts an obligation to note which failure modes they
+enable.</p>
+
+<h2 id="s10">10. Conclusion</h2>
+<p>A proverb about bread compresses a four-layer architecture. The gap between
+expectation and delivery is a measurable neural signal (Eqs. 1–4) whose
+salience peaks under uncertainty; repeated-game theory states when that
+signal's carrier — a reciprocal tie — holds against temptation (Eq. 5); tie
+topology weaves dyads into a fabric whose bridges are its weak ties; and
+percolation, cascade and cohesion theory rate the fabric's tensile strength
+and predict its two failure modes — brittle fracture under overload, and
+slack-thread unraveling under perfect predictability (Eqs. 6–9). The composite
+Σ_soc of Eq. 11 is offered as a falsifiable summary of the stack: a society's
+strength is the least bond energy that must be cut to pull it apart, and bond
+energy requires both a future worth protecting and a present that still
+surprises.</p>
+
+<h2 id="refs">References</h2>
+<ol class="refs">
+<li id="ref1">Humphreys, L. G. (1939). The effect of random alternation of
+reinforcement on the acquisition and extinction of conditioned eyelid
+reactions. <em>Journal of Experimental Psychology</em>, 25(2), 141–158.
+doi:10.1037/h0058138</li>
+<li id="ref2">Ferster, C. B., &amp; Skinner, B. F. (1957). <em>Schedules of
+Reinforcement</em>. New York: Appleton-Century-Crofts.
+<a href="https://archive.org/details/schedulesofreinf0000bfsk">Full text</a></li>
+<li id="ref3">Aronson, E., &amp; Linder, D. (1965). Gain and loss of esteem as
+determinants of interpersonal attractiveness. <em>Journal of Experimental
+Social Psychology</em>, 1(2), 156–171. doi:10.1016/0022-1031(65)90043-0</li>
+<li id="ref4">Rescorla, R. A., &amp; Wagner, A. R. (1972). A theory of
+Pavlovian conditioning: Variations in the effectiveness of reinforcement and
+nonreinforcement. In A. H. Black &amp; W. F. Prokasy (Eds.), <em>Classical
+Conditioning II: Current Research and Theory</em> (pp. 64–99). New York:
+Appleton-Century-Crofts.</li>
+<li id="ref5">Sutton, R. S., &amp; Barto, A. G. (2018). <em>Reinforcement
+Learning: An Introduction</em> (2nd ed.). Cambridge, MA: MIT Press.</li>
+<li id="ref6">Schultz, W., Dayan, P., &amp; Montague, P. R. (1997). A neural
+substrate of prediction and reward. <em>Science</em>, 275(5306), 1593–1599.
+doi:10.1126/science.275.5306.1593</li>
+<li id="ref7">Fiorillo, C. D., Tobler, P. N., &amp; Schultz, W. (2003).
+Discrete coding of reward probability and uncertainty by dopamine neurons.
+<em>Science</em>, 299(5614), 1898–1902. doi:10.1126/science.1077349</li>
+<li id="ref8">Laskowski, C. S., Dorchak, D. L., Ward, K. M., Christensen,
+D. R., &amp; Euston, D. R. (2019). Can slot-machine reward schedules induce
+gambling addiction in rats? <em>Journal of Gambling Studies</em>, 35, 887–914.
+doi:10.1007/s10899-019-09852-1</li>
+<li id="ref9">Friedman, J. W. (1971). A non-cooperative equilibrium for
+supergames. <em>Review of Economic Studies</em>, 38(1), 1–12.
+doi:10.2307/2296617</li>
+<li id="ref10">Fudenberg, D., &amp; Maskin, E. (1986). The folk theorem in
+repeated games with discounting or with incomplete information.
+<em>Econometrica</em>, 54(3), 533–554. doi:10.2307/1911307</li>
+<li id="ref11">Axelrod, R. (1984). <em>The Evolution of Cooperation</em>. New
+York: Basic Books. (See also Axelrod, R., &amp; Hamilton, W. D. (1981). The
+evolution of cooperation. <em>Science</em>, 211, 1390–1396.)</li>
+<li id="ref12">Granovetter, M. S. (1973). The strength of weak ties.
+<em>American Journal of Sociology</em>, 78(6), 1360–1380. doi:10.1086/225469</li>
+<li id="ref13">Erdős, P., &amp; Rényi, A. (1960). On the evolution of random
+graphs. <em>Publications of the Mathematical Institute of the Hungarian
+Academy of Sciences</em>, 5, 17–61.</li>
+<li id="ref14">Molloy, M., &amp; Reed, B. (1995). A critical point for random
+graphs with a given degree sequence. <em>Random Structures &amp;
+Algorithms</em>, 6(2–3), 161–180. doi:10.1002/rsa.3240060204</li>
+<li id="ref15">Cohen, R., Erez, K., ben-Avraham, D., &amp; Havlin, S. (2000).
+Resilience of the Internet to random breakdowns. <em>Physical Review
+Letters</em>, 85(21), 4626–4628. doi:10.1103/PhysRevLett.85.4626</li>
+<li id="ref16">Granovetter, M. (1978). Threshold models of collective
+behavior. <em>American Journal of Sociology</em>, 83(6), 1420–1443.
+doi:10.1086/226707</li>
+<li id="ref17">Watts, D. J. (2002). A simple model of global cascades on
+random networks. <em>Proceedings of the National Academy of Sciences</em>,
+99(9), 5766–5771. doi:10.1073/pnas.082090499</li>
+<li id="ref18">Moody, J., &amp; White, D. R. (2003). Structural cohesion and
+embeddedness: A hierarchical concept of social groups. <em>American
+Sociological Review</em>, 68(1), 103–127. doi:10.2307/3088904</li>
+<li id="ref19">Durkheim, É. (1897/1951). <em>Suicide: A Study in Sociology</em>
+(J. A. Spaulding &amp; G. Simpson, Trans.). Glencoe, IL: Free Press.</li>
+</ol>
+
+<footer>
+Working paper; Sections 1–7 and 9–10 synthesize published results, Section 8
+is original and unvalidated. Figures generated from the stated equations with
+illustrative parameters. <a href="map.html">Interactive fragility map</a> ·
+<a href="assets/Tensile_Fabric_of_Society_White_Paper.pdf" download>PDF</a>
+</footer>
+
+</article></div>
+
+<script>
+(() => {
+"use strict";
+const cv = document.getElementById("heroCv");
+const ctx = cv.getContext("2d");
+const hero = cv.parentElement;
+const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let W=0,H=0,DPR=1, nodes=[], ties=[], gap=0, t0=0;
+
+function build(){
+  W = hero.clientWidth; H = hero.clientHeight;
+  DPR = Math.min(2, devicePixelRatio||1);
+  cv.width=W*DPR; cv.height=H*DPR; ctx.setTransform(DPR,0,0,DPR,0,0);
+  gap = Math.max(24, Math.min(W,H)/16);
+  const cols=Math.ceil(W/gap)+2, rows=Math.ceil(H/gap)+2;
+  nodes=[]; ties=[];
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+    const x=(c-0.5)*gap, y=(r-0.5)*gap;
+    nodes.push({x,y,z:0,px:x,py:y,pz:0,
+      pin:(r===0||c===0||r===rows-1||c===cols-1)});
+  }
+  const id=(r,c)=>r*cols+c;
+  for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){
+    if(c<cols-1) ties.push({a:id(r,c),b:id(r,c+1),rest:gap,s:0});
+    if(r<rows-1) ties.push({a:id(r,c),b:id(r+1,c),rest:gap,s:0});
+  }
+}
+let user=null;
+function wells(t){
+  const w=[];
+  if(!reduced){
+    const a=t*0.00035;
+    w.push({x:W*0.5+Math.cos(a)*W*0.24, y:H*0.42+Math.sin(a*1.3)*H*0.16, m:1.5});
+  } else {
+    w.push({x:W*0.55, y:H*0.40, m:1.8});
+  }
+  if(user) w.push({x:user.x, y:user.y, m:2.4});
+  return w;
+}
+function step(t){
+  const ws=wells(t), R=gap*3.2;
+  for(const n of nodes){
+    if(n.pin) continue;
+    let vx=(n.x-n.px)*0.96, vy=(n.y-n.py)*0.96, vz=(n.z-n.pz)*0.96;
+    n.px=n.x; n.py=n.y; n.pz=n.z;
+    let fz=-n.z*0.006, fx=0, fy=0;
+    for(const w of ws){
+      const dx=n.x-w.x, dy=n.y-w.y;
+      const g=Math.exp(-(dx*dx+dy*dy)/(2*R*R))*w.m;
+      fz+=g*0.9; fx-=dx*g*0.0022; fy-=dy*g*0.0022;
+    }
+    n.x+=vx+fx; n.y+=vy+fy; n.z+=vz+fz;
+  }
+  for(let it=0;it<2;it++)for(const tt of ties){
+    const a=nodes[tt.a], b=nodes[tt.b];
+    const dx=b.x-a.x, dy=b.y-a.y, dz=b.z-a.z;
+    const d=Math.hypot(dx,dy,dz)||1e-6;
+    if(it===0) tt.s=Math.min(1, Math.max(0,(d/tt.rest-1)/0.22));
+    const diff=(d-tt.rest)/d*0.5;
+    const ax=dx*diff, ay=dy*diff, az=dz*diff;
+    if(!a.pin){a.x+=ax;a.y+=ay;a.z+=az}
+    if(!b.pin){b.x-=ax;b.y-=ay;b.z-=az}
+  }
+}
+function color(s,sh){
+  let r,g,b;
+  if(s<0.5){const u=s/0.5; r=61+u*140; g=98+u*53; b=133-u*102;}
+  else{const u=(s-0.5)/0.5; r=201+u*24; g=151-u*55; b=31+u*16;}
+  return `rgba(${r*sh|0},${g*sh|0},${b*sh|0},0.85)`;
+}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  for(const t of ties){
+    const a=nodes[t.a], b=nodes[t.b];
+    const az=a.z, bz=b.z;
+    const sh=1-Math.min(1,Math.max(az,bz)/(gap*2.6))*0.6;
+    ctx.strokeStyle=color(t.s,sh);
+    ctx.lineWidth=0.8+t.s;
+    ctx.beginPath();
+    ctx.moveTo(a.x+az*0.08, a.y+az*0.30);
+    ctx.lineTo(b.x+bz*0.08, b.y+bz*0.30);
+    ctx.stroke();
+  }
+}
+function loop(t){ step(t); draw(); requestAnimationFrame(loop); }
+function pos(e){ const r=cv.getBoundingClientRect();
+  return {x:e.clientX-r.left, y:e.clientY-r.top}; }
+cv.addEventListener("pointerdown", e=>{ user=pos(e);
+  const pm=document.getElementById("pressme"); if(pm) pm.style.opacity=0.4; });
+cv.addEventListener("pointermove", e=>{ if(user) user=pos(e); });
+addEventListener("pointerup", ()=>user=null);
+addEventListener("resize", build);
+build();
+if(reduced){ for(let i=0;i<120;i++) step(0); draw(); }
+else requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>
